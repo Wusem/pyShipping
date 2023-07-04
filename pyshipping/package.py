@@ -126,10 +126,8 @@ class Package(object):
             >>> Package((1600, 250, 480)) + Package((1600, 490, 480))
             <Package 1600x740x480>
             """
-        meineseiten = set([(self.heigth, self.width), (self.heigth, self.length),
-                           (self.width, self.length)])
-        otherseiten = set([(other.heigth, other.width), (other.heigth, other.length),
-                           (other.width, other.length)])
+        meineseiten = {(self.heigth, self.width), (self.heigth, self.length), (self.width, self.length)}
+        otherseiten = {(other.heigth, other.width), (other.heigth, other.length), (other.width, other.length)}
         if not meineseiten.intersection(otherseiten):
             raise ValueError("%s has no fitting sites to %s" % (self, other))
         candidates = sorted(meineseiten.intersection(otherseiten), reverse=True)
@@ -186,7 +184,7 @@ def buendelung(kartons, maxweight=31000, maxgurtmass=3000):
             return False
 
         tmp = box_a + box_b
-        if tmp.weight > maxweight:
+        if tmp.weight > int(maxweight):
             return False
         elif tmp.gurtmass > maxgurtmass:
             return False
