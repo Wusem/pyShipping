@@ -244,6 +244,7 @@ def pack_in_bins(kartons, versandkarton):
     bins = []
     rest = []
     boxes = []
+    print(kartons)
 
     boxes = sorted(kartons, reverse=True)
     for box in boxes:
