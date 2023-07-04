@@ -93,16 +93,16 @@ def packlayer(bin, packages):
 
 
 def packbin(bin, packages):
-    packages.sort()
+    sorted_packages = sorted(packages, key=lambda package: package.volume, reverse=False)
     layers = []
     contentheigth = 0
     contentx = 0
     contenty = 0
     binsize = bin.length
-    while packages:
-        layer, (sizex, sizey, layersize), rest = packlayer(bin, packages)
+    while sorted_packages:
+        layer, (sizex, sizey, layersize), rest = packlayer(bin, sorted_packages)
         if contentheigth + layersize <= binsize:
-            packages = rest
+            sorted_packages = rest
             if not layer:
                 # we were not able to pack anything
                 break
@@ -112,9 +112,9 @@ def packbin(bin, packages):
             layers.extend(layer)
         else:
             # Next Bin please
-            packages = layer + rest
+            sorted_packages = layer + rest
             break
-    return layers, (contentx, contenty, contentheigth), packages
+    return layers, (contentx, contenty, contentheigth), sorted_packages
 
 
 def packit(bin, originalpackages):
