@@ -227,6 +227,8 @@ def buendelung(kartons, maxweight=31000, maxgurtmass=3000):
         rest.append(lastcarton)
     return buendelcounter, gebuendelt, rest
 
+def compare_package_size(package):
+    return package.size()
 
 def pack_in_bins(kartons, versandkarton):
     """Implements Bin-Packing.
@@ -243,9 +245,12 @@ def pack_in_bins(kartons, versandkarton):
     packagelist = []
     bins = []
     rest = []
-    boxes = []
+    sorted_kartons = []
     print("Kartons",kartons)
+    sorted_kartons = sorted(kartons, key=compare_package_size)
 
+    for box in sorted_kartons:
+        print(box)
     '''
     boxes = sorted(kartons, reverse=True)
     for box in boxes:
