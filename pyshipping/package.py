@@ -246,7 +246,7 @@ def pack_in_bins(kartons, versandkarton):
     boxes = []
     print(kartons)
 
-    boxes = sorted(kartons, reverse=True)
+    '''boxes = sorted(kartons, reverse=True)
     for box in boxes:
         print(box)
         if box not in versandkarton:
@@ -257,7 +257,7 @@ def pack_in_bins(kartons, versandkarton):
     if packagelist:
         bins, rest = pyshipping.binpack.binpack(packagelist, versandkarton)
     return bins, toobig + rest
-
+ '''
 
 ### Tests
 class PackageTests(unittest.TestCase):
