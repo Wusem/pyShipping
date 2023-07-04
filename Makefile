@@ -7,7 +7,7 @@ check:
 	-sh -c 'PYTHONPATH=. pylint -iy --max-line-length=110 pyshipping/' # -rn
 
 build:
-	python setup.py build
+	python3 setup.py build
 
 test:
 	PYTHONPATH=. python3 pyshipping/__init__.py # find import errors
