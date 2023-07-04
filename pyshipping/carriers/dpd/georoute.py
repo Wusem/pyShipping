@@ -160,7 +160,7 @@ class RouteData(object):
 
         services = os.path.join(ROUTETABLES_BASE, 'SERVICE')
         self.version = None
-        with open('services', 'r') as file:
+        with open(services, 'r') as file:
             for line in file:
                 if line.startswith('#Version: '):
                     self.version = line.split(':')[1].strip()
