@@ -205,21 +205,21 @@ class RouteData(object):
                      WHERE type = 'table' AND name = 'depots'""")
         if not c.fetchone()[0]:
             logging.info("regenerating depots table")
-            c.execute("""CREATE TABLE depots
-            (DepotNumber TEXT PRIMARY KEY,
-             IATACode TEXT,
-             GroupId TEXT,
-             Name1 TEXT,
-             Name2 TEXT,
-             Address1 TEXT,
-             Address2 TEXT,
-             Postcode TEXT,
-             CityName TEXT,
-             Country TEXT,
-             Phone TEXT,
-             Fax TEXT,
-             Mail TEXT,
-             Web TEXT)""")
+            c.execute("CREATE TABLE depots\n"
+                      "            (DepotNumber TEXT PRIMARY KEY,\n"
+                      "             IATACode TEXT,\n"
+                      "             GroupId TEXT,\n"
+                      "             Name1 TEXT,\n"
+                      "             Name2 TEXT,\n"
+                      "             Address1 TEXT,\n"
+                      "             Address2 TEXT,\n"
+                      "             Postcode TEXT,\n"
+                      "             CityName TEXT,\n"
+                      "             Country TEXT,\n"
+                      "             Phone TEXT,\n"
+                      "             Fax TEXT,\n"
+                      "             Mail TEXT,\n"
+                      "             Web TEXT)")
 
             for line in _readfile(os.path.join(path, 'DEPOTS')):
                 c.execute("""INSERT INTO depots
