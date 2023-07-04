@@ -145,9 +145,9 @@ def _readfile(filename):
     for line in fhandle:
         line = line.strip()
             # .strip().decode('ISO 8859-1')
-        if line.startswith('#'):
+        if line.startswith(str('#')):
             continue
-        yield line.split('|')
+        yield line.split(str('|'))
 
 
 class RouteData(object):
