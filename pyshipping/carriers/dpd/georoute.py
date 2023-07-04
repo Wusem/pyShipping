@@ -200,9 +200,9 @@ class RouteData(object):
         SQLite database."""
         c = self.db.cursor()
 
-        c.execute("""SELECT COUNT(*)
-                     FROM sqlite_master
-                     WHERE type = 'table' AND name = 'depots'""")
+        c.execute("SELECT COUNT(*)\n"
+                  "FROM sqlite_master\n"
+                  "WHERE type = 'table' AND name = 'depots'")
         if not c.fetchone()[0]:
             logging.info("regenerating depots table")
             c.execute("CREATE TABLE depots\n"
