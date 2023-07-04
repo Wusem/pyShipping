@@ -243,6 +243,7 @@ def pack_in_bins(kartons, versandkarton):
     toobig, packagelist, bins, rest = [], [], [], []
 
     for box in sorted(kartons, reverse=True):
+        print(box)
         if box not in versandkarton:
             # passt eh nicht
             toobig.append(box)
