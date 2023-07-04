@@ -186,7 +186,7 @@ def buendelung(kartons, maxweight=31000, maxgurtmass=3000):
         tmp = box_a + box_b
         if tmp.weight is not None and int(tmp.weight) > int(maxweight):
             return False
-        elif if tmp.gurtmass is not None and int(tmp.weight) > int(maxgurtmass):
+        elif tmp.gurtmass is not None and int(tmp.weight) > int(maxgurtmass):
             return False
         return True
 
