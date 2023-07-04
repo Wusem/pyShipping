@@ -170,7 +170,7 @@ class RouteData(object):
 
         self.countries = {}
         for line in _readfile(os.path.join(ROUTETABLES_BASE, 'COUNTRY')):
-            isonum, isoname = line[:2]
+            isonum, isoname = str(line)[:2]
             self.countries[isoname.upper()] = isonum
 
         self.depots = {}
