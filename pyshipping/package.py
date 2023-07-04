@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import doctest
+import unittest
+
 """
 package.py - shipping/cargo related calculations based on a unit of shipping (box, crate, package)
 
@@ -7,9 +8,6 @@ Created by Maximillian Dornseif on 2006-12-02.
 Copyright HUDORA GmbH 2006, 2007, 2010
 You might consider this BSD-Licensed.
 """
-
-import doctest
-import unittest
 
 
 class Package(object):
@@ -49,14 +47,14 @@ class Package(object):
         otherdimensions = list(dimensions)
         del otherdimensions[otherdimensions.index(maxdimension)]
         return maxdimension + 2 * (sum(otherdimensions))
+
     gurtmass = property(_get_gurtmass)
 
     def hat_gleiche_seiten(self, other):
         """Prüft, ob other mindestens eine gleich grosse Seite mit self hat."""
 
         meineseiten = set([(self.heigth, self.width), (self.heigth, self.length), (self.width, self.length)])
-        otherseiten = set([(other.heigth, other.width), (other.heigth, other.length),
-                           (other.width, other.length)])
+        otherseiten = set([(other.heigth, other.width), (other.heigth, other.length), (other.width, other.length)])
         return bool(meineseiten.intersection(otherseiten))
 
     def __getitem__(self, key):
@@ -311,7 +309,7 @@ if __name__ == '__main__':
         multi = single * factor
         if multi.weight > 31000 or multi.gurtmass > 3000:
             multi = single * (factor - 1)
-            #print factor - 1, multi, multi.gurtmass
+            # print factor - 1, multi, multi.gurtmass
             break
 
     doctest.testmod()

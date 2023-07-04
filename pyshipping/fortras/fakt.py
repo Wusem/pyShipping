@@ -1,17 +1,14 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import csv
+import datetime
+import decimal
+import StringIO
+
 """
 fakt.py
 
 Created by Christian Klein on 2011-03-31.
 Copyright (c) 2011 HUDORA GmbH. All rights reserved.
 """
-
-import csv
-import datetime
-import decimal
-import StringIO
-
 
 FIELDNAME_MAPPING = {
     'Firma': 'firma',
@@ -99,4 +96,5 @@ def parse_fakt(data):
 if __name__ == "__main__":
     import sys
     import pprint
+
     pprint.pprint(parse_fakt(open(sys.argv[1]).read()))

@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import unittest
+import math
+
 """
 sendung.py - Sendungsaufteilung - dies definiert eine abstrakte Sendung, mit Packstücken usw. und
              Operationen darauf.
@@ -7,9 +8,6 @@ sendung.py - Sendungsaufteilung - dies definiert eine abstrakte Sendung, mit Pac
 Created by Maximillian Dornseif on 2007-07-11. Based on code from 2007-04-17.
 Copyright (c) 2007 HUDORA GmbH. All rights reserved.
 """
-
-import unittest
-import math
 
 
 class AbstractPackstueck(object):
@@ -19,15 +17,16 @@ class AbstractPackstueck(object):
 
 class AbstractItem(object):
     """Definiert ein Sendungsposition. In der Regel definiert als Artikel und Menge."""
+
     # Kann in der Theorie aus mehreren Packstücken bestehen, das ist aber noch nicht implementeirt.
     def __init__(self):
         # Wir gehen davon aus, dass folgende Attribute von ausserhalb oder von abgeleiteten Klassen
         # definiert wird:
-        #self.gewicht_pro_exportkarton = None
-        #self.palettenfaktor = None
-        #self.produkte_pro_exportkarton = None
-        #self.einzelvolumen = None
-        #self.einzelgewicht = None
+        # self.gewicht_pro_exportkarton = None
+        # self.palettenfaktor = None
+        # self.produkte_pro_exportkarton = None
+        # self.einzelvolumen = None
+        # self.einzelgewicht = None
         self.menge = None
 
     def __unicode__(self):
@@ -247,6 +246,7 @@ class simpleTests(unittest.TestCase):
         self.assertAlmostEqual(alieferung.paletten, 0.738095238095)
         # print alieferung.transportweg
         # print alieferung.fix
+
 
 if __name__ == '__main__':
     unittest.main()

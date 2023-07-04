@@ -1,15 +1,13 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import re
+import datetime
+import logging
+
 """
 stat.py - parse Fortras STAT messages.
 
 Created by Maximillian Dornseif on 2006-11-19.
 You may consider this BSD licensed.
 """
-
-import re
-import datetime
-import logging
 
 
 class Statusmeldung(object):
@@ -51,21 +49,21 @@ class Statusmeldung(object):
                      84,  # AV - Empfänger zahlt WWNN/EUSt. nicht
                      85,  # AV - nicht bestellt
                      88,  # Erledigung durch ...
-                   ]
+                     ]
     okstati = [12, 50]
     bouncestati = [80, 81, 82, 83, 84, 85]
     errorstati = [66, 67, 68, 69, 70, 71, 74] + bouncestati
     warnstati = [5, 8, 9, 18, 63, 64, 65, 66, 99, 100] + bouncestati
     statustexte = {
-         1: 'Nicht in Zustellung - Sendung fehlt komplett lt. EB',
-         2: 'Nicht in Zustellung - unvollständige/falsche Sendungsangaben',
-         3: 'Nicht in Zustellung – Ware beschädigt',
-         4: 'Nicht in Zustellung - Sendung verstapelt/nicht auffindbar',
-         5: 'Nicht in Zustellung - Platzmangel auf Zustelltour',
-         6: 'Nicht in Zustellung - Fix- oder Zustelltermin lt. Vorgabe',
-         7: 'Nicht in Zustellung - Empfänger außerhalb des Produktionsgebietes (24 h)',
-         8: 'Nicht zugestellt - Zeitmangel auf Zustelltour',
-         9: 'Nicht zugestellt - Empfänger nicht angetroffen.  Zustellbescheid hinterlassen',
+        1: 'Nicht in Zustellung - Sendung fehlt komplett lt. EB',
+        2: 'Nicht in Zustellung - unvollständige/falsche Sendungsangaben',
+        3: 'Nicht in Zustellung – Ware beschädigt',
+        4: 'Nicht in Zustellung - Sendung verstapelt/nicht auffindbar',
+        5: 'Nicht in Zustellung - Platzmangel auf Zustelltour',
+        6: 'Nicht in Zustellung - Fix- oder Zustelltermin lt. Vorgabe',
+        7: 'Nicht in Zustellung - Empfänger außerhalb des Produktionsgebietes (24 h)',
+        8: 'Nicht zugestellt - Zeitmangel auf Zustelltour',
+        9: 'Nicht zugestellt - Empfänger nicht angetroffen.  Zustellbescheid hinterlassen',
         10: 'Nicht zugestellt - annahmeverweigert/unzustellbar  oder Adressfehler',
         11: 'Nicht in Zustellung - Sendung endgültig in Verlust (Protokoll folgt)',
         12: 'Zugestellt - reine Quittung',
@@ -131,9 +129,9 @@ class Statusmeldung(object):
         if int(datadict['sendungsschluessel']) in Statusmeldung.bouncestati:
             sendung.status = 'bounced'
             logging.warning('bounced shipment %r: %r (%r|%r)' % (datadict['sendungsnrversender'],
-                                                                       datadict['sendungsschluessel'],
-                                                                       datadict['statustext'],
-                                                                       datadict['zusatztext']))
+                                                                 datadict['sendungsschluessel'],
+                                                                 datadict['statustext'],
+                                                                 datadict['zusatztext']))
 
         if datadict['statustext']:
             info = [datadict['statustext']]
@@ -165,8 +163,9 @@ class Statusmeldung(object):
                                               '071', '084', '085', '091', '099', '053', '100', '999']:
             if datadict['sendungsnrempfaenger']:
                 if (sendung.speditionsauftragsnummer
-                  and sendung.speditionsauftragsnummer != datadict['sendungsnrempfaenger']):
-                    logging.error('Problem with Sendung %r: original speditionsauftragsnummer %r replaced by %r' % (sendung, sendung.speditionsauftragsnummer, datadict['sendungsnrempfaenger']))
+                        and sendung.speditionsauftragsnummer != datadict['sendungsnrempfaenger']):
+                    logging.error('Problem with Sendung %r: original speditionsauftragsnummer %r replaced by %r' % (
+                    sendung, sendung.speditionsauftragsnummer, datadict['sendungsnrempfaenger']))
                 sendung.speditionsauftragsnummer = datadict['sendungsnrempfaenger']
         else:
             logging.error('unknown STAT data for record %r: %r (%r|%r)' % (datadict['sendungsnrversender'],
@@ -190,7 +189,8 @@ class Statusmeldung(object):
             match = re.search(Statusmeldung.q_record_re, line)
             newdict = {}
             if not match:
-                print 'no match', repr(line)
+                print
+                'no match', repr(line)
             for key, value in match.groupdict().items():
                 newdict[key] = value.strip()
             try:
@@ -209,4 +209,5 @@ class Statusmeldung(object):
                 newdict['sendungsnrversender'] = int(newdict['sendungsnrversender'])
                 self.update_sendung(newdict['sendungsnrversender'], newdict)
             except ValueError:
-                logging.warning('Problem with invalid id %r for STAT record - ignoring' % newdict['sendungsnrversender'])
+                logging.warning(
+                    'Problem with invalid id %r for STAT record - ignoring' % newdict['sendungsnrversender'])

@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import unittest
+
 """
 addressvalidation.py - check the validity of addresses
 
@@ -12,8 +12,6 @@ or http://opengeodb.hoppe-media.com/
 Created by Maximillian Dornseif on 2009-09-03.
 Copyright (c) 2009, 2010 HUDORA. All rights reserved.
 """
-
-import unittest
 
 
 def validate(adr, servicelevel=1):

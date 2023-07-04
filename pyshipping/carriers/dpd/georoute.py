@@ -1,5 +1,9 @@
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+import os
+import os.path
+import gzip
+import logging
+import sqlite3
+
 """
 georoute.py - get DPD related routng information
 
@@ -7,16 +11,8 @@ Originally coded by md, cleand up and extended by jmv and then again reworked by
 Copyright 2006, 2007 HUDORA GmbH. Published under a BSD License.
 """
 
-import os
-import os.path
-import gzip
-import logging
-import sqlite3
-
-
 ROUTETABLES_BASE = os.path.join(os.path.split(os.path.abspath(__file__))[0], 'georoutetables')
 ROUTES_DB_BASE = '/tmp/dpdroutes'
-
 
 # Quelle: http://de.wikipedia.org/wiki/Liste_der_Kfz-Nationalitätszeichen
 ISO2CAR = {
@@ -425,7 +421,7 @@ class Router(object):
                          serviceinfo, self.route_data.get_countrynum(country),
                          self.route_data.version, parcel.postcode)
         raise NoRouteError("No route found for %r|%r|%r" % \
-              (parcel.country, parcel.postcode, parcel.service))
+                           (parcel.country, parcel.postcode, parcel.service))
 
     def add_condition(self, condition):
         self.conditions.append(condition)
@@ -449,7 +445,7 @@ class Router(object):
 
     def select_country(self, parcel):
         """Select all routes with the given country."""
-        rows = self.select_routes("DestinationCountry='%s'" % (parcel.country.upper().replace("'", ''), ))
+        rows = self.select_routes("DestinationCountry='%s'" % (parcel.country.upper().replace("'", ''),))
         if not rows:
             raise CountryError("Country %s unknown" % parcel.country)
 
@@ -498,7 +494,7 @@ class Router(object):
         if not rows:
             # range
             rows = self.select_routes("BeginPostCode<='%s' AND EndPostCode>='%s'"
-                                       % (parcel.postcode.replace("'", ''), parcel.postcode.replace("'", '')))
+                                      % (parcel.postcode.replace("'", ''), parcel.postcode.replace("'", '')))
         if not rows:
             # catch all
             rows = self.select_routes("BeginPostCode=''")
@@ -511,9 +507,9 @@ class Router(object):
         # we have to redo postcode query as a backoff strategy
         self.conditions.pop()
         postcodequeries = ["BeginPostCode='%s'" % parcel.postcode.replace("'", ''),
-            "BeginPostCode<='%s' AND EndPostCode>='%s'" % (parcel.postcode.replace("'", ''),
-                                                           parcel.postcode.replace("'", '')),
-            "BeginPostCode=''"]
+                           "BeginPostCode<='%s' AND EndPostCode>='%s'" % (parcel.postcode.replace("'", ''),
+                                                                          parcel.postcode.replace("'", '')),
+                           "BeginPostCode=''"]
         for postcodequery in postcodequeries:
             rows = self.select_routes("%s AND ServiceCodes LIKE '%%%s%%'" % (postcodequery, parcel.service))
             if not rows:
@@ -523,7 +519,7 @@ class Router(object):
                 break
         if not rows:
             raise ServiceError("No route for service found %r|%r|%r unknown" % \
-                (parcel.country, parcel.postcode, parcel.service))
+                               (parcel.country, parcel.postcode, parcel.service))
 
     def select_depot(self, parcel):
         """Select all routes with the given depot."""
@@ -537,7 +533,8 @@ class Router(object):
             rows = cur.fetchall()
         if not rows:
             raise RoutingDepotError("No route found for %r|%r|%r|%r|%r" % \
-                  (parcel.country, parcel.postcode, parcel.service, self.route_data.routingdepot, subset))
+                                    (parcel.country, parcel.postcode, parcel.service, self.route_data.routingdepot,
+                                     subset))
         self.current_subset = [unicode(row[0]) for row in rows]
 
 
@@ -576,27 +573,27 @@ def get_route(country=None, postcode=None, city=None, servicecode='101'):
 
     # check if entry is cached
     cur.execute("SELECT * FROM routing_cache WHERE country_postcode_servicecode='%s'"
-                 % ("%s_%s_%s" % (country, postcode, servicecode)))
+                % ("%s_%s_%s" % (country, postcode, servicecode)))
     rows = cur.fetchall()
     if not rows:
         # nothing found
         route = get_route_without_cache(country, postcode, city, servicecode)
         cur.execute("""INSERT INTO routing_cache
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                             ("%s_%s_%s" % (country, postcode, servicecode),
-                             route.d_depot,
-                             route.o_sort,
-                             route.d_sort,
-                             route.grouping_priority,
-                             route.barcode_id,
-                             route.iata_code,
-                             route.service_text,
-                             route.service_mark,
-                             route.country,
-                             route.serviceinfo,
-                             route.countrynum,
-                             route.routingtable_version,
-                             route.postcode))
+                    ("%s_%s_%s" % (country, postcode, servicecode),
+                     route.d_depot,
+                     route.o_sort,
+                     route.d_sort,
+                     route.grouping_priority,
+                     route.barcode_id,
+                     route.iata_code,
+                     route.service_text,
+                     route.service_mark,
+                     route.country,
+                     route.serviceinfo,
+                     route.countrynum,
+                     route.routingtable_version,
+                     route.postcode))
         # For some reason closing the cache generated occasionally runtime errors.
         # cache_db.close()
     else:

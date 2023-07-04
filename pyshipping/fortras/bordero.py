@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import os
+import time
+
 """
 bordero.py - implements BORD messages. BORD is similar to IFTMIN in EDIFACT. Think of it as an work order
 to a freight forwarder.
@@ -11,11 +12,8 @@ Created by Lars Ronge and Maximillian Dornseif on 2006-11-06.
 You may consider this BSD licensed.
 """
 
-import os
-import time
 
-
-#def _transcode(data):
+# def _transcode(data):
 #    """Decode utf-8 to latin1 (which is used by fortras)."""
 #    return data.decode('utf-8', 'replace').encode('latin-1', 'replace')
 
@@ -29,6 +27,7 @@ def _clip(length, data):
         return data[:length]
     return data
 
+
 # zwei führende Nullen weg !!!
 # übertragung: "übergepackt"
 # übertragung: Palettenformat 1.5, 1, 0.5
@@ -37,8 +36,8 @@ def _clip(length, data):
 # Mäuler Telefonummer
 # Liste Auslandssendungen
 
-#doctext = """Bordero-Kopf-Satz"""
-#Afelder = [
+# doctext = """Bordero-Kopf-Satz"""
+# Afelder = [
 #    dict(length=18, startpos=0,   endpos=19, name='borderonr',       fieldclass=IntegerFieldZeropadded),
 #    dict(length=8,  startpos=19,  endpos=27, name='datum',           fieldclass=DateFieldReverse,
 #         default=datetime.date.today()),
@@ -58,7 +57,7 @@ def _clip(length, data):
 #    dict(length=10, startpos=106, endpos=117, name='plombe1',        fieldclass=RightAdjustedField),
 #    dict(length=10, startpos=117, endpos=127, name='plombe1',        fieldclass=RightAdjustedField),
 #    dict(length=10, startpos=117, endpos=127, name='release',        fieldclass=FixedField, default='6'),
-#]
+# ]
 # Verkehrsartschlüssel (Satzart ‘A’, Position 031)
 # B = Bahn
 # E = Bordero für den eigenen Nahverkehr
@@ -76,8 +75,8 @@ def _clip(length, data):
 # T = Teppichkurier
 
 
-#doctext="""Versender-Adress-Satz - Teil 1"""
-#Bfelder = [
+# doctext="""Versender-Adress-Satz - Teil 1"""
+# Bfelder = [
 #    dict(length=35, startpos= 0 , endpos= 35, name='versender_name1', default='HUDORA GmbH'),
 #    dict(length=35, startpos= 35, endpos= 70, name='versender_name2'),
 #    dict(length=35, startpos= 70, endpos=105, name='versender_strasse', default='Jägerwald 13'),
@@ -87,10 +86,10 @@ def _clip(length, data):
 #    dict(length= 3, startpos=119, endpos=122, name='codis_abholstelle', fieldclass=FixedField, default='   '),
 #    dict(length= 1, startpos=122, endpos=123, name='codis_laufkennzeichen',
 #         fieldclass=FixedField, default=' '),
-#]
+# ]
 #
-#doctext="""Versender-Adress-Satz - Teil 2"""
-#Cfelder = [
+# doctext="""Versender-Adress-Satz - Teil 2"""
+# Cfelder = [
 #    dict(length=35, startpos=  0, endpos= 35, name='versenderort'),
 #    dict(length= 3, startpos= 35, endpos= 38, name='versender_berechnungsland', fieldclass=FixedField,
 #         default='   '),
@@ -103,18 +102,18 @@ def _clip(length, data):
 #    dict(length= 9, startpos=100, endpos=109, name='warenwert', fieldclass=DecimalFieldWithoutDot, precision=2),
 #    dict(length= 3, startpos=109, endpos=112, name='waehrung', default='EUR'),
 #    dict(length=13, startpos=112, endpos=123, name='frei', fieldclass=FixedField, default='             '),
-#]
+# ]
 #
-#doctext = """Empfänger-Adress-Satz  - Teil 1"""
-#Dfelder = [
+# doctext = """Empfänger-Adress-Satz  - Teil 1"""
+# Dfelder = [
 #    dict(length=35, startpos=  0, endpos= 35, name='name1'),
 #    dict(length=35, startpos= 35, endpos= 70, name='name2'),
 #    dict(length=35, startpos= 70, endpos=105, name='stadtteil'),
 #    dict(length=19, startpos=105, endpos=123, name='frei'),
-#]
+# ]
 #
-#doctext = """Empfänger-Adress-Satz - Teil 2"""
-#Efelder = [
+# doctext = """Empfänger-Adress-Satz - Teil 2"""
+# Efelder = [
 #    dict(length=25, startpos=  0, endpos= 35, name='strasse'),
 #    dict(length= 3, startpos= 35, endpos= 38, name='land'),
 #    dict(length= 9, startpos= 38, endpos= 47, name='plz'),
@@ -124,10 +123,10 @@ def _clip(length, data):
 #    dict(length=17, startpos= 94, endpos=111, name='Kunden-Nr. Empfänger'),
 #    dict(length=10, startpos=111, endpos=121, name='Original-ID des VP beim  Empfangspartner*'),
 #    dict(length= 2, startpos=123, endpos=123, name='Frei'),
-#]
+# ]
 #
-#dictext="""Sendungs-Positions-Satz (je Sendungsteil; mehrfach möglich)."""
-#Ffelder = [
+# dictext="""Sendungs-Positions-Satz (je Sendungsteil; mehrfach möglich)."""
+# Ffelder = [
 #    dict(kength= 4, startpos=  0, endpos=  4, name='packstueck_anzahl'),
 #    dict(kength= 2, startpos=  4, endpos=  6, name='verpackungsart'), # ???
 #    dict(kength= 4, startpos=  6, endpos= 10, name='packstueck_anzahl_auf_paletten', fieldclass=FixedField,
@@ -144,7 +143,7 @@ def _clip(length, data):
 #    # Die Satzart ‘F’ darf nicht mit einem 2. Sendungsteil versehen werden,
 #    # wenn die Satzarten ‘G’ bzw. ‚Y‘ und ‚Z‘ (Gefahrgut) oder Satzart ‘H’ (Packstück-Nr.) folgen!
 #    dict(kength=68, startpos=  60, endpos=123, name='frei'),
-#]
+# ]
 # Verpackungsartschlüssel (Satzart ‘F’, Positionen 009/010, 015/016, 071/072 und 077/078)
 # Schlüssel Art
 # AB Auf Bohlen
@@ -294,10 +293,10 @@ def _clip(length, data):
 #     dict(lentgth= 1, startpos=122, endpos=123, name='lieferscheindaten_folgen', fieldclass=FixedField,
 #          default=' '),
 # ]
-#** siehe beigefügter Hinweistextschlüssel
-#*** bei Nachlieferungen (Original-Sendungs-Nr. des EP) bzw. bei Ersterfassung von über-
-#zähligen Sendungen (vorläufige Sendungs-Nr. des EP)
-#**** siehe beigefügter Schlüsseltabelle für Auftragsarten
+# ** siehe beigefügter Hinweistextschlüssel
+# *** bei Nachlieferungen (Original-Sendungs-Nr. des EP) bzw. bei Ersterfassung von über-
+# zähligen Sendungen (vorläufige Sendungs-Nr. des EP)
+# **** siehe beigefügter Schlüsseltabelle für Auftragsarten
 
 
 # 'L': ('%(sendungen)05d%(packstuecke)05d%(bruttogewicht)05d'
@@ -455,8 +454,8 @@ class Bordero(object):
     def generate_empfaengersatz_e(self, lieferung):
         """Generates bodero record E - second half of recipient."""
         data = {'strasse': _clip(35, lieferung.adresse), 'lkz': _clip(3, lieferung.land),
-        'plz': _clip(9, lieferung.plz), 'ort': _clip(35, lieferung.ort), 'kdnnr': lieferung.kundennummer,
-        'matchcode': _clip(10, (lieferung.name1 + lieferung.ort).replace(' ', '')), 'foo': ' '}
+                'plz': _clip(9, lieferung.plz), 'ort': _clip(35, lieferung.ort), 'kdnnr': lieferung.kundennummer,
+                'matchcode': _clip(10, (lieferung.name1 + lieferung.ort).replace(' ', '')), 'foo': ' '}
         return self.generate_satz('E', data)
 
     def generate_sendungspossatz_f(self, lieferung):
@@ -465,11 +464,11 @@ class Bordero(object):
         # Fuer weitere Paletten typen neuen Satz
         # Tatsächliches Gewicht einpflegen
         data = {'anzahlpackstuecke': len(lieferung.packstuecke),
-        'verpackungsart': _clip(2, 'FP'),
-        'sendungskilo': int(lieferung.gewicht / 1000),
-        'wareninhalt': _clip(20, 'HUDORA Sportartikel'),
-        'zeichennr': _clip(20, '%s/%s' % (lieferung.lieferscheinnummer, lieferung.id)),
-        'foo': ''}
+                'verpackungsart': _clip(2, 'FP'),
+                'sendungskilo': int(lieferung.gewicht / 1000),
+                'wareninhalt': _clip(20, 'HUDORA Sportartikel'),
+                'zeichennr': _clip(20, '%s/%s' % (lieferung.lieferscheinnummer, lieferung.id)),
+                'foo': ''}
         return self.generate_satz('F', data)
 
     def generate_packstuecksatz(self, lieferung, packstueck):
@@ -478,16 +477,16 @@ class Bordero(object):
         if not barcode.startswith('00'):
             barcode = '00' + barcode
         data = {'barcode': barcode,
-        'foo': ' '}
+                'foo': ' '}
         return self.generate_satz('H', data)
 
     def generate_sendungsinfosatz_i(self, lieferung):
         """Generates bodero record I."""
         # Sendungsnummer - eindeutig!
         data = {'sendungsnummer': _clip(16, "%016s" % lieferung.id),
-        'ladedm': 0,
-        'frankatur': '02',  # frei Haus
-        'foo': ' '}
+                'ladedm': 0,
+                'frankatur': '02',  # frei Haus
+                'foo': ' '}
         data['sendungskilo'] = int(lieferung.gewicht / 1000)
         return self.generate_satz('I', data)
 
@@ -549,7 +548,7 @@ class Bordero(object):
     def generate_zusatztextsatz_j(self, lieferung):
         """Generates bodero record J - additional text info."""
         data = {'zusatztext1': _clip(62, u'AuftragsNr: %s / KundenNr: %s' %
-                                         (lieferung.auftragsnummer, lieferung.kundennummer)),
+                                     (lieferung.auftragsnummer, lieferung.kundennummer)),
                 'zusatztext2': _clip(62, u'huLOG Code: %s' % lieferung.code),
                 'foo': ' '}
         return self.generate_satz('J', data)
@@ -562,17 +561,17 @@ class Bordero(object):
         # Was bei CHEP / Düsseldorfer Paletten = speditereigenebehaelter
         # clearing kennzeichen?
         data = {'sendungen': len(self.lieferungen),
-            'bruttogewicht': int(sum([lieferung.gewicht for lieferung in self.lieferungen]) / 1000),
-            'kostensteuerplichtig': 0,
-            'kostensteuerfrei': 0,
-            'kostenzoll': 0,
-            'eust': 0,
-            'gitterboxen': 0,
-            'europaletten': sum([len(lieferung.packstuecke) for lieferung in self.lieferungen]),
-            'packstuecke': sum([len(lieferung.packstuecke) for lieferung in self.lieferungen]),
-            'sonstigeladehilfsmittel': 0,
-            'foo': '',
-        }
+                'bruttogewicht': int(sum([lieferung.gewicht for lieferung in self.lieferungen]) / 1000),
+                'kostensteuerplichtig': 0,
+                'kostensteuerfrei': 0,
+                'kostenzoll': 0,
+                'eust': 0,
+                'gitterboxen': 0,
+                'europaletten': sum([len(lieferung.packstuecke) for lieferung in self.lieferungen]),
+                'packstuecke': sum([len(lieferung.packstuecke) for lieferung in self.lieferungen]),
+                'sonstigeladehilfsmittel': 0,
+                'foo': '',
+                }
         self.satznummer = 999
         return self.generate_satz('L', data)
 

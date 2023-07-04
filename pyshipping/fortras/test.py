@@ -1,14 +1,12 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import unittest
+from pyshipping.fortras.bordero import _clip, Bordero
+
 """
 test.py - tests for fortras related functionality
 
 Created by Maximillian Dornseif on 2006-11-19.
 You may consider this BSD licensed.
 """
-
-import unittest
-from pyshipping.fortras.bordero import _clip, Bordero
 
 _nvecount = 0
 
@@ -54,6 +52,7 @@ class TestLieferung:
 
     def _get_gewicht(self):
         return sum([packstueck.gewicht for packstueck in self.packstuecke])
+
     gewicht = property(_get_gewicht)
 
 

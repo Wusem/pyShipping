@@ -1,5 +1,7 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import time
+import random
+from pyshipping.package import Package
+
 """
 binpack_simple.py
 
@@ -37,10 +39,6 @@ Copyright (c) 2010 HUDORA. All rights reserved.
 """
 
 
-import time
-import random
-
-
 def packstrip(bin, p):
     """Creates a Strip which fits into bin.
 
@@ -48,13 +46,13 @@ def packstrip(bin, p):
     and a list of "left over" packages.
     """
     # This code is somewhat optimized and somewhat unreadable
-    s = []                # strip
-    r = []                # rest
-    ss = sw = sl = 0      # stripsize
-    bs = bin.heigth       # binsize
-    sapp = s.append       # speedup
-    rapp = r.append       # speedup
-    ppop = p.pop          # speedup
+    s = []  # strip
+    r = []  # rest
+    ss = sw = sl = 0  # stripsize
+    bs = bin.heigth  # binsize
+    sapp = s.append  # speedup
+    rapp = r.append  # speedup
+    ppop = p.pop  # speedup
     while p and (ss <= bs):
         n = ppop(0)
         nh, nw, nl = n.size
@@ -222,17 +220,14 @@ def test():
             continue
         bins, rest = binpack(packages)
         if rest:
-            print "invalid data", rest, line
+            print("invalid data", rest, line)
         else:
             vorher += len(packages)
             nachher += len(bins)
-    print time.time() - start,
-    print vorher, nachher, float(nachher) / vorher * 100
+    print(time.time() - start, vorher, nachher, float(nachher) / vorher * 100)
 
 
 if __name__ == '__main__':
     import cProfile
+
     cProfile.run('test()')
-
-
-from pyshipping.package import Package

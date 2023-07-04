@@ -2,7 +2,7 @@
 PATH := ./testenv/bin:$(PATH)
 
 check:
-	pep8 -r --ignore=E501 pyshipping/
+	pycodestyle -r --ignore=E501 pyshipping/
 	sh -c 'PYTHONPATH=. pyflakes pyshipping/'
 	-sh -c 'PYTHONPATH=. pylint -iy --max-line-length=110 pyshipping/' # -rn
 
