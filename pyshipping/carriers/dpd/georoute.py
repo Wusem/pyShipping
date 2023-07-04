@@ -175,17 +175,17 @@ class RouteData(object):
 
         self.depots = {}
         for line in _readfile(os.path.join(ROUTETABLES_BASE, 'DEPOTS')):
-            geopostdepotnumber = line[0]
+            geopostdepotnumber = str(line)[0]
             self.depots[geopostdepotnumber] = tuple(line)
 
         self.services = {}
         for line in _readfile(os.path.join(ROUTETABLES_BASE, 'SERVICE')):
-            servicecode = line[0]
+            servicecode = str(line)[0]
             self.services[servicecode] = tuple(line)
 
         self.serviceinfo = {}
         for line in _readfile(os.path.join(ROUTETABLES_BASE, 'SERVICEINFO.DE')):
-            servicecode = line[0]
+            servicecode = str(line)[0]
             self.serviceinfo[servicecode] = line[1]
 
         filename = ROUTES_DB_BASE + ('-%s-%s.db' % (routingdepot, self.version))
