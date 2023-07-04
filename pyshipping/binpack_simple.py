@@ -119,7 +119,10 @@ def packbin(bin, packages):
 
 def packit(bin, originalpackages):
     packedbins = []
-    packages = sorted(originalpackages)
+    packages = []
+
+    packages = sorted(originalpackages, key=lambda package: package.volume, reverse=False)
+
     while packages:
         packagesinbin, (binx, biny, binz), rest = packbin(bin, packages)
         if not packagesinbin:
