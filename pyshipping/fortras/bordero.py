@@ -409,7 +409,7 @@ class Bordero(object):
         """Helper function to generate output for a Record."""
         for key in data.keys():
             if isinstance(data[key], str):
-                data[key] = unicode(data[key], 'ascii', errors='ignore')
+                data[key] = str(data[key], 'ascii', errors='ignore')
         ret = ((u'%s%03d' % (satzart, self.satznummer)) +
                (self.satzarten[satzart] % data))
         if len(ret) != 128:
