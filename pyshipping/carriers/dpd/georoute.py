@@ -143,7 +143,7 @@ def _readfile(filename):
     else:
         fhandle = open(filename,'r')
     for line in fhandle:
-        line = line.strip().decode('latin1')
+        line = line.strip().encode('latin1').decode('latin1')
         if line.startswith('#'):
             continue
         yield line.split('|')
