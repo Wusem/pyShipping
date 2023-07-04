@@ -253,7 +253,7 @@ def pack_in_bins(kartons, versandkarton):
     if packagelist:
         bins, rest = pyshipping.binpack.binpack(packagelist, versandkarton)
     return bins, toobig + rest
- '''
+
 
 ### Tests
 class PackageTests(unittest.TestCase):
