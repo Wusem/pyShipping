@@ -141,7 +141,7 @@ def _readfile(filename):
     if os.path.exists(filename + '.gz'):
         fhandle = gzip.GzipFile(filename + '.gz')
     else:
-        fhandle = file(filename)
+        fhandle = open(filename,'r')
     for line in fhandle:
         line = line.strip().decode('latin1')
         if line.startswith('#'):
