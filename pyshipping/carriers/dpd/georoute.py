@@ -160,10 +160,11 @@ class RouteData(object):
 
         services = os.path.join(ROUTETABLES_BASE, 'SERVICE')
         self.version = None
-        for line in file(services):
-            if line.startswith('#Version: '):
-                self.version = line.split(':')[1].strip()
-                break
+        with open('services', 'r') as file:
+            for line in file:
+                if line.startswith('#Version: '):
+                    self.version = line.split(':')[1].strip()
+                    break
         if self.version is None:
             raise InvalidFormatError("There's no version in the SERVICE file")
 
