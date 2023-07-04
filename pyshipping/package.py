@@ -12,17 +12,13 @@ You might consider this BSD-Licensed.
 
 
 class Package(object):
-    """Represents a package as used in cargo/shipping aplications."""
+    """Represents a package as used in cargo/shipping applications."""
 
     def __init__(self, size, weight=0, nosort=False):
         """Generates a new Package object.
 
         The size can be given as an list of integers or an string where the sizes are
-        separated by the letter 'x':
-        >>> Package((300, 400, 500))
-        <Package 500x400x300>
-        >>> Package('300x400x500')
-        <Package 500x400x300>
+        separated by the letter 'x': >>> Package((300, 400, 500)) <Package 500x400x300> >>> Package('300x400x500') <Package 500x400x300>
         """
         self.weight = weight
         if "x" in size:
@@ -93,10 +89,9 @@ class Package(object):
         """Package objects are equal if they have exactly the same dimensions.
 
            Permutations of the dimensions are considered equal:
-
-           >>> Package((100,110,120)) == Package((100,110,120))
+           Package((100,110,120)) == Package((100,110,120))
            True
-           >>> Package((120,110,100)) == Package((100,110,120))
+           Package((120,110,100)) == Package((100,110,120))
            True
         """
         return (self.heigth == other.heigth and self.width == other.width and self.length == other.length)
@@ -108,8 +103,7 @@ class Package(object):
     def __mul__(self, multiplicand):
         """Package can be multiplied with an integer. This results in the Package beeing
            stacked along the biggest side.
-
-           >>> Package((400,300,600)) * 2
+           Package((400,300,600)) * 2
            <Package 600x600x400>
            """
         if self.weight:
@@ -120,11 +114,11 @@ class Package(object):
 
     def __add__(self, other):
         """
-            >>> Package((1600, 250, 480)) + Package((1600, 470, 480))
+            Package((1600, 250, 480)) + Package((1600, 470, 480))
             <Package 1600x720x480>
-            >>> Package((1600, 250, 480)) + Package((1600, 480, 480))
+            Package((1600, 250, 480)) + Package((1600, 480, 480))
             <Package 1600x730x480>
-            >>> Package((1600, 250, 480)) + Package((1600, 490, 480))
+            Package((1600, 250, 480)) + Package((1600, 490, 480))
             <Package 1600x740x480>
             """
         meineseiten = {(self.heigth, self.width), (self.heigth, self.length), (self.width, self.length)}
@@ -236,7 +230,7 @@ def pack_in_bins(kartons, versandkarton):
     You provide it with a bin size and a list of Package Objects to be bined. Returns a list of lists
     representing the bins with the binned Packages and a list of Packages too big for binning.
 
-    >>> pack_in_bins([Package('135x200x250'), Package('170x380x390'), Package('485x280x590'), Package('254x171x368'), Package('201x172x349'), Package('254x171x368')], \
+    pack_in_bins([Package('135x200x250'), Package('170x380x390'), Package('485x280x590'), Package('254x171x368'), Package('201x172x349'), Package('254x171x368')], \
                      Package('600x400x400'))
     ([[<Package 250x200x135>, <Package 349x201x172>, <Package 368x254x171>], [<Package 368x254x171>, <Package 390x380x170>]], [<Package 590x485x280>])
     """
@@ -247,7 +241,8 @@ def pack_in_bins(kartons, versandkarton):
     rest = []
     sorted_kartons = []
     print("Kartons",kartons)
-    sorted_kartons = sorted(kartons, key=compare_package_size)
+
+    sorted_kartons = sorted(kartons, reverse=True)
 
     for box in sorted_kartons:
         print(box)
