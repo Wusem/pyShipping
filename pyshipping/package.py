@@ -239,10 +239,14 @@ def pack_in_bins(kartons, versandkarton):
     ([[<Package 250x200x135>, <Package 349x201x172>, <Package 368x254x171>], [<Package 368x254x171>, <Package 390x380x170>]], [<Package 590x485x280>])
     """
 
+    toobig = []
+    packagelist = []
+    bins = []
+    rest = []
+    boxes = []
 
-    toobig, packagelist, bins, rest = [], [], [], []
-
-    for box in sorted(kartons, reverse=True):
+    boxes = sorted(kartons, reverse=True)
+    for box in boxes:
         print(box)
         if box not in versandkarton:
             # passt eh nicht
