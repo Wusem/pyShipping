@@ -302,7 +302,7 @@ class PackageTests(unittest.TestCase):
     def test_sort(self):
         """Test multiplication."""
         data = [Package((1600, 490, 480)), Package((1600, 470, 480)), Package((1600, 480, 480))]
-        data.sort()
+        data.sort(key=None,reverse=True)
         self.assertEqual(data,
                          [Package((1600, 470, 480)), Package((1600, 480, 480)),
                           Package((1600, 490, 480))])
