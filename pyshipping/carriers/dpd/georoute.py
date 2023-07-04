@@ -143,7 +143,8 @@ def _readfile(filename):
     else:
         fhandle = open(filename,'r')
     for line in fhandle:
-        line = line.strip().decode('ISO 8859-1')
+        line = line.strip()
+            # .strip().decode('ISO 8859-1')
         if line.startswith('#'):
             continue
         yield line.split('|')
