@@ -10,13 +10,13 @@ build:
 	python setup.py build
 
 test:
-	PYTHONPATH=. python pyshipping/__init__.py # find import errors
-	PYTHONPATH=. python pyshipping/shipment.py
-	PYTHONPATH=. python pyshipping/package.py
-	PYTHONPATH=. python pyshipping/fortras/test.py
-	PYTHONPATH=. python pyshipping/binpack.py
+	PYTHONPATH=. python3 pyshipping/__init__.py # find import errors
+	PYTHONPATH=. python3 pyshipping/shipment.py
+	PYTHONPATH=. python3 pyshipping/package.py
+	PYTHONPATH=. python3 pyshipping/fortras/test.py
+	PYTHONPATH=. python3 pyshipping/binpack.py
 	# These tests tend to fail because of routing table updates
-	PYTHONPATH=. python pyshipping/carriers/dpd/georoute_test.py
+	PYTHONPATH=. python3 pyshipping/carriers/dpd/georoute_test.py
 
 dependencies:
 	virtualenv testenv
@@ -26,7 +26,7 @@ statistics:
 	sloccount --wide --details pyshipping | tee sloccount.sc
 
 upload: build doc
-	python setup.py sdist upload
+	python3 setup.py sdist upload
 
 doc: build
 	rm -Rf html
@@ -38,7 +38,7 @@ doc: build
 	sh -c '(cd html/carriers; pydoc -w ../../pyshipping/*.py)'
 
 install: build
-	sudo python setup.py install
+	sudo python3 setup.py install
 
 clean:
 	rm -Rf testenv build dist html test.db pyShipping.egg-info pylint.out sloccount.sc pip-log.txt
