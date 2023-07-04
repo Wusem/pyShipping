@@ -186,7 +186,7 @@ class RouteData(object):
         self.serviceinfo = {}
         for line in _readfile(os.path.join(ROUTETABLES_BASE, 'SERVICEINFO.DE')):
             servicecode = str(line)[0]
-            self.serviceinfo[servicecode] = line[1]
+            self.serviceinfo[servicecode] = str(line)[1]
 
         filename = ROUTES_DB_BASE + ('-%s-%s.db' % (routingdepot, self.version))
         self.db = sqlite3.connect(filename)
