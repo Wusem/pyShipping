@@ -23,8 +23,7 @@ class TestCase(unittest.TestCase):
             for key, value in dict2.items():
                 if dict1.get(key) != value:
                     difference.add((key, dict1.get(key), value))
-            raise self.failureException, \
-                ('%r != %r: %s' % (dict1, dict2, list(difference)))
+            raise self.failureException('%r != %r: %s' % (dict1, dict2, list(difference)))
 
 
 class RouteDataTest(TestCase):
