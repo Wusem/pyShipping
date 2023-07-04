@@ -1,6 +1,6 @@
 import binpack_simple
 import time
-from pyshipping.package import Package
+
 
 """
 binpack.py
@@ -39,3 +39,5 @@ def test(func):
 
 if __name__ == '__main__':
     print("py", test(binpack))
+
+from pyshipping.package import Package
