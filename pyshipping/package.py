@@ -1,6 +1,6 @@
 import doctest
 import unittest
-import pyshipping.binpack
+
 
 """
 package.py - shipping/cargo related calculations based on a unit of shipping (box, crate, package)
@@ -234,7 +234,7 @@ def pack_in_bins(kartons, versandkarton):
                      Package('600x400x400'))
     ([[<Package 250x200x135>, <Package 349x201x172>, <Package 368x254x171>], [<Package 368x254x171>, <Package 390x380x170>]], [<Package 590x485x280>])
     """
-
+    import pyshipping.binpack
     toobig = []
     packagelist = []
     bins = []
