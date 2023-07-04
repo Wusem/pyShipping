@@ -244,9 +244,10 @@ def pack_in_bins(kartons, versandkarton):
     bins = []
     rest = []
     boxes = []
-    print(kartons)
+    print("Kartons",kartons)
 
-    '''boxes = sorted(kartons, reverse=True)
+    '''
+    boxes = sorted(kartons, reverse=True)
     for box in boxes:
         print(box)
         if box not in versandkarton:
