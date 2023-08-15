@@ -142,7 +142,7 @@ def _readfile(filename):
     if os.path.exists(filename + '.gz'):
         fhandle = gzip.GzipFile(filename + '.gz')
     else:
-        fhandle = open(filename,'r')
+        fhandle = open(filename, 'r')
     for line in fhandle:
         line = str(line).strip().encode('ISO 8859-1')
         if str(line).startswith('#'):
@@ -302,7 +302,6 @@ class RouteData(object):
             c.execute("CREATE INDEX routedepots_depot ON routedepots(depot)")
             c.execute('VACUUM;')  # also commits the database
 
-
     def expand_services(self, services):
         """Expand services list."""
         services_list = []
@@ -311,7 +310,7 @@ class RouteData(object):
                 start = int(service[1:4])
                 end = int(service[4:])
                 for i in range(start, end + 1):
-                    services_list.append(unicode(i))
+                    services_list.append(i)
             else:
                 services_list.append(service[1:])
 
@@ -357,21 +356,24 @@ class RouteData(object):
 
     def get_depot(self, depotnumber):
         """Return depot."""
-        if not depotnumber in self.depots:
+        if depotnumber in self.depots:
+            return self.depots[depotnumber]
+        else:
             raise DepotError("Depot %s unknown" % depotnumber)
-        return self.depots[depotnumber]
 
     def get_service(self, servicecode):
         """Return service."""
-        if not servicecode in self.services:
+        if servicecode in self.services:
+            return self.services[servicecode]
+        else:
             raise ServiceError("Service %s unknown" % servicecode)
-        return self.services[servicecode]
 
     def get_servicetext(self, servicecode):
         """Return service info to be printed on label."""
-        if not servicecode in self.serviceinfo:
+        if servicecode in self.serviceinfo:
+            return self.serviceinfo[servicecode]
+        else:
             return ''
-        return self.serviceinfo[servicecode]
 
     def translate_location(self, city, country):
         """Return postcode for given city and country."""
@@ -423,7 +425,7 @@ class Router(object):
                          iata_code, service_text, service_mark, country,
                          serviceinfo, self.route_data.get_countrynum(country),
                          self.route_data.version, parcel.postcode)
-        raise NoRouteError("No route found for %r|%r|%r" % \
+        raise NoRouteError("No route found for %r|%r|%r" %
                            (parcel.country, parcel.postcode, parcel.service))
 
     def add_condition(self, condition):
@@ -443,7 +445,7 @@ class Router(object):
         # Save matched rows if there were any results
         if rows:
             self.add_condition(condition)
-        self.current_subset = [unicode(row[0]) for row in rows]
+        self.current_subset = [(row[0]) for row in rows]
         return rows
 
     def select_country(self, parcel):
@@ -517,28 +519,28 @@ class Router(object):
             rows = self.select_routes("%s AND ServiceCodes LIKE '%%%s%%'" % (postcodequery, parcel.service))
             if not rows:
                 # catch all
-                rows = self.select_routes("%s AND ServiceCodes = ''" % (postcodequery))
+                rows = self.select_routes("%s AND ServiceCodes = ''" % postcodequery)
             if rows:
                 break
         if not rows:
-            raise ServiceError("No route for service found %r|%r|%r unknown" % \
+            raise ServiceError("No route for service found %r|%r|%r unknown" %
                                (parcel.country, parcel.postcode, parcel.service))
 
     def select_depot(self, parcel):
         """Select all routes with the given depot."""
-        subset = "route IN (%s)" % ','.join([unicode(route) for route in self.current_subset])
+        subset = "route IN (%s)" % ','.join([route for route in self.current_subset])
         cur = self.db.cursor()
         cur.execute("SELECT route FROM routedepots WHERE depot=%s AND %s" % (self.route_data.routingdepot,
                                                                              subset))
         rows = cur.fetchall()
         if not rows:
-            cur.execute("SELECT route FROM routedepots WHERE %s" % (subset))
+            cur.execute("SELECT route FROM routedepots WHERE %s" % subset)
             rows = cur.fetchall()
         if not rows:
-            raise RoutingDepotError("No route found for %r|%r|%r|%r|%r" % \
+            raise RoutingDepotError("No route found for %r|%r|%r|%r|%r" %
                                     (parcel.country, parcel.postcode, parcel.service, self.route_data.routingdepot,
                                      subset))
-        self.current_subset = [unicode(row[0]) for row in rows]
+        self.current_subset = [(row[0]) for row in rows]
 
 
 def get_route_without_cache(country=None, postcode=None, city=None, servicecode='101'):
@@ -548,7 +550,7 @@ def get_route_without_cache(country=None, postcode=None, city=None, servicecode=
 
 def get_route(country=None, postcode=None, city=None, servicecode='101'):
     # this includes somewhat overly complex caching
-    filename = ROUTES_DB_BASE + ('_cache.db')
+    filename = ROUTES_DB_BASE + '_cache.db'
     cache_db = sqlite3.connect(filename, isolation_level=None)
     cur = cache_db.cursor()
     # ensure table exists
@@ -615,6 +617,6 @@ def find_route(depot, servicecode, land, plz):
     warnings.warn("georoute.find_route() is deprecated use get_route() instead",
                   DeprecationWarning, stacklevel=2)
 
-    if unicode(depot) != '0142':
+    if depot != '0142':
         raise RuntimeError("wrong depot")
-    return get_route(unicode(land), unicode(plz), servicecode=unicode(servicecode))
+    return get_route(land, plz, servicecode=servicecode)
