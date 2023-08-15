@@ -1,7 +1,8 @@
 import csv
 import datetime
 import decimal
-import StringIO
+# Importing the StringIO module.
+from io import StringIO
 
 """
 fakt.py
@@ -73,8 +74,9 @@ def convert_record(record):
 def parse_fakt(data):
     """Parse BORDERO FAKT data"""
 
-    if isinstance(data, basestring):
-        data = StringIO.StringIO(data)
+    if isinstance(data):
+        # basestring):
+        data = StringIO(data)
 
     header = data.readline()
     if not header.strip() == '@@PHFAKT128 FROMAT:CSV DELIMITER:;':
