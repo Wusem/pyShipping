@@ -1,6 +1,6 @@
 import time
 import random
-
+from pyshipping.package import Package
 
 """
 binpack_simple.py
@@ -234,5 +234,3 @@ if __name__ == '__main__':
     import cProfile
 
     cProfile.run('test()')
-
-from pyshipping.package import Package
