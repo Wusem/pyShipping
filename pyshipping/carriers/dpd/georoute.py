@@ -138,6 +138,7 @@ Service Text: %s""" % (self.country, self.d_depot, self.o_sort, self.d_sort,
 
 def _readfile(filename):
     """Read file line-by-line skipping comments."""
+    print(filename)
     if os.path.exists(filename + '.gz'):
         fhandle = gzip.GzipFile(filename + '.gz')
     else:
@@ -300,6 +301,7 @@ class RouteData(object):
             c.execute("CREATE INDEX routedepots_route ON routedepots(route)")
             c.execute("CREATE INDEX routedepots_depot ON routedepots(depot)")
             c.execute('VACUUM;')  # also commits the database
+
 
     def expand_services(self, services):
         """Expand services list."""

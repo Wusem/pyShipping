@@ -436,7 +436,7 @@ class RouterTest(TestCase):
     def test_select_routes(self):
         self.router.conditions = ['1=1']
         rows = self.router.select_routes('DestinationCountry=?', ('UZ',))
-        self.assert_(len(rows) > 0)
+        self.assertTrue(ServiceError,len(rows) > 0)
 
     def test_cache(self):
         self.assertDicEq(vars(get_route('LI', '8440')), vars(get_route_without_cache('LI', '8440')))

@@ -1,4 +1,4 @@
-import binpack_simple
+from pyshipping import binpack_simple
 import time
 
 
