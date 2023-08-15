@@ -167,11 +167,9 @@ def buendelung(kartons, maxweight=31000, maxgurtmass=3000):
 
     Gibt die gebündelten Pakete und die nicht bündelbaren Pakete zurück.
 
-    >>> buendelung([Package((800, 310, 250)), Package((800, 310, 250)),
-    Package((800, 310, 250)), Package((800, 310, 250))])
+    buendelung([Package((800, 310, 250)), Package((800, 310, 250)),Package((800, 310, 250)), Package((800, 310, 250))])
     (1, [<Package 800x750x310>], [<Package 800x310x250>])
-    >>> buendelung([Package((800, 310, 250)), Package((800, 310, 250)),
-    Package((800, 310, 250)), Package((800, 310, 250)), Package((450, 290, 250)), Package((450, 290, 250))])
+    buendelung([Package((800, 310, 250)), Package((800, 310, 250)), Package((800, 310, 250)), Package((800, 310, 250)), Package((450, 290, 250)), Package((450, 290, 250))])
     (2, [<Package 800x750x310>, <Package 500x450x290>], [<Package 800x310x250>])
     """
     kartons = list(kartons)
