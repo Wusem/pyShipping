@@ -290,7 +290,7 @@ class RouteData(object):
             i = 1
             for line in _readfile(os.path.join(path, 'ROUTES')):
                 services = self.expand_services(str(line)[3])
-                c.execute('INSERT INTO routes VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+                c.execute('INSERT INTO routes VALUES (?,?,?)',
                           [i] + line[:3] + [services] + line[4:-1])
                 self.expand_depots(i, line[4], c)
                 i += 1
