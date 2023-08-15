@@ -219,8 +219,8 @@ def _clip(length, data):
 #     dict(length=16, startpos=108, endpos=123, name='frei'),
 # ]
 #
-# # 'I': ('%(sendungsnummer)-16s%(sendungskilo)05d0000000000%(ladedm)03d    %(frankatur)-2s%(frankatur)-2s  %(foo)30s  %(foo)30s%(foo)16s  '),
-# doctext = """Sendungs-Gewichte (je Sendung 1x)"""
+# # 'I': ('%(sendungsnummer)-16s%(sendungskilo)05d0000000000%(ladedm)03d    %(frankatur)-2s%(frankatur)-2s  %(foo)30s
+# %(foo)30s%(foo)16s  '), doctext = """Sendungs-Gewichte (je Sendung 1x)"""
 #
 # # Frankaturschlüssel des Spediteur-Übergabescheins (Satzart ‘I’, Positionen 043/044)
 # # kann Bordero-Frankatur wie folgt ergeben:
@@ -269,34 +269,27 @@ def _clip(length, data):
 #                           }
 #
 #
-# # Hinweistextschlüssel der Auftragsart (Satzart ‘I’, Position 127)
-# # 'I': ('%(sendungsnummer)-16s%(sendungskilo)05d0000000000%(ladedm)03d    %(frankatur)-2s%(frankatur)-2s  %(foo)30s  %(foo)30s%(foo)16s  '),
-# Ifelder = [
-#     dict(lentgth=16, startpos=  0, endpos= 16, name='Sendungs-Nr. Versandpartner****** muss'),
-#     dict(lentgth= 5, startpos= 16, endpos= 21, name='gewicht', fieldclass=IntegerField,
-#          doc="Sendungsgewicht in KG"),
-#     dict(lentgth= 5, startpos= 21, endpos= 26, name='gewicht_frachtpflichtig', fieldclass=IntegerField,
-#          doc="Frachtpflichtiges Sendungsgewicht in KG"),
-#     dict(lentgth= 5, startpos= 26, endpos= 31, name='kubikdezimeter', fieldclass=IntegerField),
-#     dict(lentgth= 3, startpos=  0, endpos=123, name='lademeter', fieldclass=DecimalFieldWithoutDot,
-#          precision=1),
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='zusaetzliche_ladehilfsmittel', fieldclass=IntegerField),
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='verpackungsart_zusaetzliche_ladehilfsmittel'), # 2 041 - 042
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='frankatur_fpediteur-Über- gabeschein* muss', choices=FRANKATUR_CHOICES), # 2 043 - 044
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='Frankatur Bordero* muss', choices=FRANKATUR_CHOICES), # 2 045 - 046
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='Hinweistextschlüssel 1** kann'), # 2 047 - 048
-#     dict(lentgth=30, startpos=  0, endpos=123, name='Hinweiszusatztext 1 kann'), # 30 049 - 078
-#     dict(lentgth= 2, startpos=  0, endpos=123, name='Hinweistextschlüssel 2** kann'), # 2 079 - 080
-#     dict(lentgth=30, startpos=  0, endpos=123, name='Hinweiszusatztext 2 kann'), # 30 081 - 110
-#     dict(lentgth=16, startpos=  0, endpos=123, name='Sendungs-Nr.  Empfangspartner*** kann'),  # 16 111 - 126
-#     dict(lentgth= 1, startpos=121, endpos=122, name='auftragsart**** kann'), # 1 127 - 127
-#     dict(lentgth= 1, startpos=122, endpos=123, name='lieferscheindaten_folgen', fieldclass=FixedField,
-#          default=' '),
-# ]
-# ** siehe beigefügter Hinweistextschlüssel
-# *** bei Nachlieferungen (Original-Sendungs-Nr. des EP) bzw. bei Ersterfassung von über-
-# zähligen Sendungen (vorläufige Sendungs-Nr. des EP)
-# **** siehe beigefügter Schlüsseltabelle für Auftragsarten
+# # Hinweistextschlüssel der Auftragsart (Satzart ‘I’, Position 127) # 'I': ('%(sendungsnummer)-16s%(
+# sendungskilo)05d0000000000%(ladedm)03d    %(frankatur)-2s%(frankatur)-2s  %(foo)30s  %(foo)30s%(foo)16s  '),
+# Ifelder = [ dict(lentgth=16, startpos=  0, endpos= 16, name='Sendungs-Nr. Versandpartner****** muss'),
+# dict(lentgth= 5, startpos= 16, endpos= 21, name='gewicht', fieldclass=IntegerField, doc="Sendungsgewicht in KG"),
+# dict(lentgth= 5, startpos= 21, endpos= 26, name='gewicht_frachtpflichtig', fieldclass=IntegerField,
+# doc="Frachtpflichtiges Sendungsgewicht in KG"), dict(lentgth= 5, startpos= 26, endpos= 31, name='kubikdezimeter',
+# fieldclass=IntegerField), dict(lentgth= 3, startpos=  0, endpos=123, name='lademeter',
+# fieldclass=DecimalFieldWithoutDot, precision=1), dict(lentgth= 2, startpos=  0, endpos=123,
+# name='zusaetzliche_ladehilfsmittel', fieldclass=IntegerField), dict(lentgth= 2, startpos=  0, endpos=123,
+# name='verpackungsart_zusaetzliche_ladehilfsmittel'), # 2 041 - 042 dict(lentgth= 2, startpos=  0, endpos=123,
+# name='frankatur_fpediteur-Über- gabeschein* muss', choices=FRANKATUR_CHOICES), # 2 043 - 044 dict(lentgth= 2,
+# startpos=  0, endpos=123, name='Frankatur Bordero* muss', choices=FRANKATUR_CHOICES), # 2 045 - 046 dict(lentgth=
+# 2, startpos=  0, endpos=123, name='Hinweistextschlüssel 1** kann'), # 2 047 - 048 dict(lentgth=30, startpos=  0,
+# endpos=123, name='Hinweiszusatztext 1 kann'), # 30 049 - 078 dict(lentgth= 2, startpos=  0, endpos=123,
+# name='Hinweistextschlüssel 2** kann'), # 2 079 - 080 dict(lentgth=30, startpos=  0, endpos=123,
+# name='Hinweiszusatztext 2 kann'), # 30 081 - 110 dict(lentgth=16, startpos=  0, endpos=123, name='Sendungs-Nr.
+# Empfangspartner*** kann'),  # 16 111 - 126 dict(lentgth= 1, startpos=121, endpos=122, name='auftragsart**** kann'),
+# 1 127 - 127 dict(lentgth= 1, startpos=122, endpos=123, name='lieferscheindaten_folgen', fieldclass=FixedField,
+# default=' '), ] ** siehe beigefügter Hinweistextschlüssel *** bei Nachlieferungen (Original-Sendungs-Nr. des EP)
+# bzw. bei Ersterfassung von über- zähligen Sendungen (vorläufige Sendungs-Nr. des EP) **** siehe beigefügter
+# Schlüsseltabelle für Auftragsarten
 
 
 # 'L': ('%(sendungen)05d%(packstuecke)05d%(bruttogewicht)05d'
@@ -617,7 +610,7 @@ def ship(verladung, empfangspartner='11515', basedir='/usr/local/maeuler/current
         bordero.add_lieferung(lieferung)
     data = bordero.generate_dataexport()  # generate first to assure bordero.borderonr is set
     # we first create a temporary file and later rename it to it's final name
-    basefilename = time.strftime('%Y%m%dT%H%M%S') + ('_%05d.txt' % (bordero.borderonr))
+    basefilename = time.strftime('%Y%m%dT%H%M%S') + ('_%05d.txt' % bordero.borderonr)
     tmpfilename = os.path.join(basedir, '._' + basefilename + '_tmp')
     filename = os.path.join(basedir, basefilename)
     outfile = open(tmpfilename, 'w')
@@ -640,7 +633,7 @@ def ship_lieferungen(lieferungen, empfangspartner='11515'):
         bordero.add_lieferung(lieferung)
     data = bordero.generate_dataexport()  # generate first to assure bordero.borderonr is set
     # we first create a temporary file and later rename it to it's finaal name
-    filename = time.strftime('%Y%m%dT%H%M%S') + ('_%05d.txt' % (bordero.borderonr))
+    filename = time.strftime('%Y%m%dT%H%M%S') + ('_%05d.txt' % bordero.borderonr)
     outfile = open(os.path.join('/usr/local/maeuler/current/In/BORD/', '._' + filename + '_tmp'), 'w')
     outfile.write(data)
     outfile.close()

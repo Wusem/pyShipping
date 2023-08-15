@@ -12,11 +12,11 @@ You may consider this BSD licensed.
 
 class Entladebericht(object):
     """Parses and represent an ENTL message."""
-    m_record_re = (r'M(?P<borderonr>[0-9 ]{18})(?P<borderodatum>[0-9 ]{8})(?P<kundennummer>.{10})'
-                   + r'(?P<eingangsdatum>[0-9 ]{8})(?P<eingangszeit>[0-9 ]{4})(?P<zeitschranfenstatus>..)'
-                   + r'(?P<entladebeginn_datum>[0-9 ]{8})(?P<entladebeginn_zeit>[0-9 ]{4})'
-                   + r'(?P<entladeende_datum>[0-9 ]{8})(?P<entladeende_zeit>[0-9 ]{4})'
-                   + r'(?P<entladehinweis>.{30})             (?P<foo>.{9})5')
+    m_record_re = (r'M(?P<borderonr>[0-9 ]{18})(?P<borderodatum>[0-9 ]{8})(?P<kundennummer>.{10})' +
+                   r'(?P<eingangsdatum>[0-9 ]{8})(?P<eingangszeit>[0-9 ]{4})(?P<zeitschranfenstatus>..)' +
+                   r'(?P<entladebeginn_datum>[0-9 ]{8})(?P<entladebeginn_zeit>[0-9 ]{4})' +
+                   r'(?P<entladeende_datum>[0-9 ]{8})(?P<entladeende_zeit>[0-9 ]{4})' +
+                   r'(?P<entladehinweis>.{30})             (?P<foo>.{9})5')
     m_record_re = re.compile(m_record_re)
     # Satzart ‘M’ muss 1 001 - 001
     # Bordero-Nr.Versandpartner muss          18 002 - 019
@@ -38,11 +38,11 @@ class Entladebericht(object):
     # Frei 9 119 - 127
     # Releasestand ���5’ muss 1 128 - 128
 
-    n_record_re = (r'N(?P<borderonr>[0-9 ]{18})(?P<position>[0-9 ]{3})(?P<sendungsnrversender>[0-9 ]{16})'
-                   + r'(?P<sendungsnrempfaenger>[0-9 ]{16})(?P<differenzschluessel1>..)'
-                   + r'(?P<differenzzahl1>[0-9 ]{4})(?P<verpackungsart1>..)(?P<differenztext1>.{29})'
-                   + r'(?P<differenzschluessel2>..)(?P<differenzzahl2>[0-9 ]{4})(?P<verpackungsart2>..)'
-                   + r'(?P<differenztext2>.{29})')
+    n_record_re = (r'N(?P<borderonr>[0-9 ]{18})(?P<position>[0-9 ]{3})(?P<sendungsnrversender>[0-9 ]{16})' +
+                   r'(?P<sendungsnrempfaenger>[0-9 ]{16})(?P<differenzschluessel1>..)' +
+                   r'(?P<differenzzahl1>[0-9 ]{4})(?P<verpackungsart1>..)(?P<differenztext1>.{29})' +
+                   r'(?P<differenzschluessel2>..)(?P<differenzzahl2>[0-9 ]{4})(?P<verpackungsart2>..)' +
+                   r'(?P<differenztext2>.{29})')
     n_record_re = re.compile(n_record_re)
     # Satzart ‘N’ muss 1 001 - 001
     # Bordero-Nr. Versandpartner muss          18 002 - 019
@@ -58,7 +58,8 @@ class Entladebericht(object):
     # Verpackungsart 2** kann 2 098 - 099
     # Text/Hinweis 2 kann          29 100 - 128
 
-    # no match 'V461               720-00             00340498430009431112               0                          19092008183100              '
+    # no match 'V461               720-00             00340498430009431112               0
+    # 19092008183100              '
     v_record_re = (r'V(?P<borderonr>[0-9 ]{18})(?P<sendungsnrversender>.{16})(?P<barcodetype>...)'
                    + r'(?P<nve>.{35})(?P<hinweiscode>...)(?P<hinweistext>.{24})'
                    + r'(?P<date>[0-9 ]{8})(?P<time>[0-9 ]{4})'
