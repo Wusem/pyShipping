@@ -1,6 +1,10 @@
+"""Module providingFunction printing python version."""
 import time
+"""Module providingFunction printing python version."""
 import random
+"""Module providingFunction printing python version."""
 from pyshipping.package import Package
+
 
 """
 binpack_simple.py
@@ -68,14 +72,14 @@ def packstrip(bin, p):
     return s, (ss, sw, sl), r + p
 
 
-def packlayer(bin, packages):
+def packlayer(packlayer_bin, packages):
     strips = []
     layersize = 0
     layerx = 0
     layery = 0
-    binsize = bin.width
+    binsize = packlayer_bin.width
     while packages:
-        strip, (sizex, stripsize, sizez), rest = packstrip(bin, packages)
+        strip, (sizex, stripsize, sizez), rest = packstrip(packlayer_bin, packages)
         if layersize + stripsize <= binsize:
             packages = rest
             if not strip:
@@ -92,15 +96,15 @@ def packlayer(bin, packages):
     return strips, (layerx, layersize, layery), packages
 
 
-def packbin(bin, packages):
+def packbin(pack_bin, packages):
     sorted_packages = sorted(packages, key=lambda package: package.volume, reverse=False)
     layers = []
     contentheigth = 0
     contentx = 0
     contenty = 0
-    binsize = bin.length
+    binsize = pack_bin.length
     while sorted_packages:
-        layer, (sizex, sizey, layersize), rest = packlayer(bin, sorted_packages)
+        layer, (sizex, sizey, layersize), rest = packlayer(pack_bin, sorted_packages)
         if contentheigth + layersize <= binsize:
             sorted_packages = rest
             if not layer:
@@ -117,14 +121,14 @@ def packbin(bin, packages):
     return layers, (contentx, contenty, contentheigth), sorted_packages
 
 
-def packit(bin, originalpackages):
+def packit(packit_bin, originalpackages):
     packedbins = []
     packages = []
 
     packages = sorted(originalpackages, key=lambda package: package.volume, reverse=False)
 
     while packages:
-        packagesinbin, (binx, biny, binz), rest = packbin(bin, packages)
+        packagesinbin, (binx, biny, binz), rest = packbin(packit_bin, packages)
         if not packagesinbin:
             # we were not able to pack anything
             break
