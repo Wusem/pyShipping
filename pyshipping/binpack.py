@@ -1,9 +1,6 @@
 """Module providingFunction printing python version."""
 import time
-"""Module providingFunction printing python version."""
 from pyshipping import binpack_simple
-
-
 
 """
 binpack.py

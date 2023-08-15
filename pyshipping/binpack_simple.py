@@ -1,8 +1,6 @@
 """Module providingFunction printing python version."""
 import time
-"""Module providingFunction printing python version."""
 import random
-"""Module providingFunction printing python version."""
 from pyshipping.package import Package
 
 """
