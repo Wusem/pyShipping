@@ -165,7 +165,7 @@ class Statusmeldung(object):
                 if (sendung.speditionsauftragsnummer
                         and sendung.speditionsauftragsnummer != datadict['sendungsnrempfaenger']):
                     logging.error('Problem with Sendung %r: original speditionsauftragsnummer %r replaced by %r' % (
-                    sendung, sendung.speditionsauftragsnummer, datadict['sendungsnrempfaenger']))
+                        sendung, sendung.speditionsauftragsnummer, datadict['sendungsnrempfaenger']))
                 sendung.speditionsauftragsnummer = datadict['sendungsnrempfaenger']
         else:
             logging.error('unknown STAT data for record %r: %r (%r|%r)' % (datadict['sendungsnrversender'],
