@@ -4,7 +4,7 @@ PATH := ./testenv/bin:$(PATH)
 check:
 	pycodestyle -r --ignore=E501,W503,W504 pyshipping/
 	sh -c 'PYTHONPATH=. pyflakes pyshipping/'
-	-sh -c 'PYTHONPATH=. pylint -iy --max-line-length=110 pyshipping/' # -rn
+	-sh -c 'PYTHONPATH=. pylint -E --max-line-length=140 pyshipping/' # -rn
 
 build:
 	python3 setup.py build

@@ -22,19 +22,19 @@ class AbstractItem(object):
     def __init__(self):
         # Wir gehen davon aus, dass folgende Attribute von ausserhalb oder von abgeleiteten Klassen
         # definiert wird:
-        # self.gewicht_pro_exportkarton = None
-        # self.palettenfaktor = None
-        # self.produkte_pro_exportkarton = None
-        # self.einzelvolumen = None
-        # self.einzelgewicht = None
-        self.menge = None
+        self.gewicht_pro_exportkarton = 0
+        self.palettenfaktor = 0
+        self.produkte_pro_exportkarton = 0
+        self.einzelvolumen = 0
+        self.einzelgewicht = 0
+        self.menge = 0
 
     def __unicode__(self):
         if hasattr(self, 'liefertermin') and hasattr(self, 'artnr'):
             return u"%d x %s, %s" % (self.menge, self.artnr, self.liefertermin)
         if hasattr(self, 'artnr'):
             return u"%d x %s" % (self.menge, self.artnr)
-        return u"%d x ?????" % (self.menge)
+        return u"%d x ?????" % self.menge
 
     @property
     def anbruch(self):
