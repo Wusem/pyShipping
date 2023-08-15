@@ -40,4 +40,3 @@ def test(func):
 if __name__ == '__main__':
     from pyshipping.package import Package
     print("py", test(binpack))
-
