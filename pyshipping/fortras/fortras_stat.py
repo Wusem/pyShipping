@@ -105,8 +105,10 @@ class Statusmeldung(object):
     }
 
     def update_sendung(self, sendung_id, datadict):
+        return 0
+    '''
         """Updates a huLOG Sendung record with the parsed STAT data."""
-        import huLOG.models
+        # import huLOG.models
         try:
             sendung = huLOG.models.Sendung.objects.get(id=sendung_id)
         except huLOG.models.Sendung.DoesNotExist:
@@ -173,7 +175,7 @@ class Statusmeldung(object):
                                                                            datadict['statustext'],
                                                                            datadict['zusatztext']))
         sendung.save()
-
+    '''
     def parse(self, data):
         """Parses Fortras STAT data."""
         lines = data.split('\n')
