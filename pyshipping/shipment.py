@@ -17,7 +17,6 @@ class AbstractPackstueck(object):
 
 class AbstractItem(object):
     """Definiert ein Sendungsposition. In der Regel definiert als Artikel und Menge."""
-
     # Kann in der Theorie aus mehreren Packstücken bestehen, das ist aber noch nicht implementeirt.
     def __init__(self):
         # Wir gehen davon aus, dass folgende Attribute von ausserhalb oder von abgeleiteten Klassen
