@@ -1,11 +1,9 @@
 """Module providingFunction printing python version."""
-from pyshipping.package import Package
-"""Module providingFunction printing python version."""
 import time
 """Module providingFunction printing python version."""
 import random
-
-
+"""Module providingFunction printing python version."""
+from pyshipping.package import Package
 
 """
 binpack_simple.py
@@ -124,12 +122,12 @@ def packbin(pack_bin, packages):
 
 def packit(packit_bin, originalpackages):
     packedbins = []
-    packages = []
 
     packages = sorted(originalpackages, key=lambda package: package.volume, reverse=False)
 
     while packages:
         packagesinbin, (binx, biny, binz), rest = packbin(packit_bin, packages)
+        print(f" {packagesinbin} ({binx},{biny},{binz}")
         if not packagesinbin:
             # we were not able to pack anything
             break
@@ -166,24 +164,24 @@ class Timeout(Exception):
     pass
 
 
-def allpermutations_helper(permuted, todo, maxcounter, callback, bin, bestpack, counter):
+def allpermutations_helper(permuted, todo, maxcounter, callback, allpermutation_helper_bin, bestpack, counter):
     if not todo:
-        return counter + callback(bin, permuted, bestpack)
+        return counter + callback(allpermutation_helper_bin, permuted, bestpack)
     else:
         others = todo[1:]
         thispackage = todo[0]
         for dimensions in set(permutations((thispackage[0], thispackage[1], thispackage[2]))):
             thispackage = Package(dimensions, nosort=True)
-            if thispackage in bin:
+            if thispackage in allpermutation_helper_bin:
                 counter = allpermutations_helper(permuted + [thispackage], others, maxcounter, callback,
-                                                 bin, bestpack, counter)
+                                                 allpermutation_helper_bin, bestpack, counter)
             if counter > maxcounter:
                 raise Timeout('more than %d iterations tries' % counter)
         return counter
 
 
-def trypack(bin, packages, bestpack):
-    bins, rest = packit(bin, packages)
+def trypack(trypack_bin, packages, bestpack):
+    bins, rest = packit(trypack_bin, packages)
     if len(bins) < bestpack['bincount']:
         bestpack['bincount'] = len(bins)
         bestpack['bins'] = bins
@@ -193,28 +191,28 @@ def trypack(bin, packages, bestpack):
     return len(packages)
 
 
-def allpermutations(todo, bin, iterlimit=5000):
+def allpermutations(todo, allpermutations_bin, iterlimit=5000):
     random.seed(1)
     random.shuffle(todo)
     bestpack = dict(bincount=len(todo) + 1)
     try:
         # First try unpermuted
-        trypack(bin, todo, bestpack)
+        trypack(allpermutations_bin, todo, bestpack)
         # now try permutations
-        allpermutations_helper([], todo, iterlimit, trypack, bin, bestpack, 0)
+        allpermutations_helper([], todo, iterlimit, trypack, allpermutations_bin, bestpack, 0)
     except Timeout:
         pass
     return bestpack['bins'], bestpack['rest']
 
 
-def binpack(packages, bin=None, iterlimit=5000):
+def binpack(packages, binpack_bin=None, iterlimit=5000):
     """Packs a list of Package() objects into a number of equal-sized bins.
 
     Returns a list of bins listing the packages within the bins and a list of packages which can't be
     packed because they are to big."""
-    if not bin:
-        bin = Package("600x400x400")
-    return allpermutations(packages, bin, iterlimit)
+    if not binpack_bin:
+        binpack_bin = Package("600x400x400")
+    return allpermutations(packages, binpack_bin, iterlimit)
 
 
 def test():
