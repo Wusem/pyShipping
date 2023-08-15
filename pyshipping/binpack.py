@@ -1,5 +1,8 @@
-from pyshipping import binpack_simple
+"""Module providingFunction printing python version."""
 import time
+"""Module providingFunction printing python version."""
+from pyshipping import binpack_simple
+
 
 
 """
@@ -10,8 +13,8 @@ Copyright (c) 2010 HUDORA. All rights reserved.
 """
 
 
-def binpack(packages, bin=None, iterlimit=5000):
-    return binpack_simple.binpack(packages, bin, iterlimit)
+def binpack(packages, binpack_bin=None, iterlimit=5000):
+    return binpack_simple.binpack(packages, binpack_bin, iterlimit)
 
 
 def test(func):

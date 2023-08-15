@@ -1,9 +1,10 @@
 """Module providingFunction printing python version."""
+from pyshipping.package import Package
+"""Module providingFunction printing python version."""
 import time
 """Module providingFunction printing python version."""
 import random
-"""Module providingFunction printing python version."""
-from pyshipping.package import Package
+
 
 
 """
@@ -43,7 +44,7 @@ Copyright (c) 2010 HUDORA. All rights reserved.
 """
 
 
-def packstrip(bin, p):
+def packstrip(packstrip_bin, p):
     """Creates a Strip which fits into bin.
 
     Returns the Packages to be used in the strip, the dimensions of the strip as a 3-tuple
@@ -53,7 +54,7 @@ def packstrip(bin, p):
     s = []  # strip
     r = []  # rest
     ss = sw = sl = 0  # stripsize
-    bs = bin.heigth  # binsize
+    bs = packstrip_bin.heigth  # binsize
     sapp = s.append  # speedup
     rapp = r.append  # speedup
     ppop = p.pop  # speedup
